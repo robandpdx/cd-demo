@@ -12,13 +12,54 @@ env:
   AWS_DEFAULT_REGION: us-west-2
 
 jobs:
-  build:
+  packer:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      # step to setup packer
       - name: Setup Packer
         uses: hashicorp-contrib/setup-packer@v2
-      # step to run packer
       - name: Run Packer
         run: packer build -var-file=packer-vars.json packer-template.json
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: manifest
+          path: packer-manifest.json
+      - name: Read packer manifest
+        id: set_ami
+        run: |
+          content=`cat ./packer-manifest.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          ami="${{fromJson($content).builds[0].artifact_id}}"
+          echo "json=$content" >> $GITHUB_OUTPUT
+          echo "ami=$ami" >> $GITHUB_OUTPUT
+  deploy:
+    runs-on: ubuntu-latest
+    needs: packer
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: manifest
+          path: .
+      # echo ami from previous job
+      - name: Echo AMI
+        run: |
+          echo ${{ needs.packer.outputs.ami }}
+      # deploy cloudformation template
+      - name: Deploy CloudFormation
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          name: test
+          template: cloudformation.yml
+          parameter-overrides: >-
+          KeyName=RobAnderson
+          LatestAmi=${{ needs.packer.outputs.ami }}
+          OperatorEmail=robandpdx@github.com
+          Subnets=subnet-ad0a92ca,subnet-8bed4fa0,subnet-87f0e7df,subnet-9e3f8dd7
+          VPC=vpc-f086c497
