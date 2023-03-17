@@ -3,7 +3,7 @@ Parameters:
   InstanceType:
     Description: The EC2 instance type
     Type: String
-    Default: t3.micro
+    Default: t3.nano
     AllowedValues:
       - t3.nano
       - t3.micro
