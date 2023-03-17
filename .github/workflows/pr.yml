@@ -14,6 +14,8 @@ env:
 jobs:
   packer:
     runs-on: ubuntu-latest
+    outputs:
+      json: ${{ steps.set_ami.outputs.json }}
     steps:
       - uses: actions/checkout@v3
       - name: Setup Packer
@@ -34,9 +36,7 @@ jobs:
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
-          ami="${{fromJson($content).builds[0].artifact_id}}"
           echo "json=$content" >> $GITHUB_OUTPUT
-          echo "ami=$ami" >> $GITHUB_OUTPUT
   deploy:
     runs-on: ubuntu-latest
     needs: packer
@@ -59,7 +59,7 @@ jobs:
           template: cloudformation.yml
           parameter-overrides: >-
             KeyName=RobAnderson
-            LatestAmi=${{ needs.packer.outputs.ami }}
+            LatestAmi="${{fromJson(needs.packer.outputs.json).builds[0].artifact_id}}"
             OperatorEmail=robandpdx@github.com
             Subnets=subnet-ad0a92ca,subnet-8bed4fa0,subnet-87f0e7df,subnet-9e3f8dd7
             VPC=vpc-f086c497
