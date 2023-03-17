@@ -50,7 +50,7 @@ jobs:
       # echo ami from previous job
       - name: Echo AMI
         run: |
-          echo ${{ needs.packer.outputs.ami }}
+          echo "${{fromJson(needs.packer.outputs.json).builds[0].artifact_id}}"
       # deploy cloudformation template
       - name: Deploy CloudFormation
         uses: aws-actions/aws-cloudformation-github-deploy@v1
