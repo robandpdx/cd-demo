@@ -51,8 +51,16 @@ jobs:
       # echo ami from previous job
       - name: Echo AMI
         run: |
-          echo "${{needs.packer.outputs.ami}}"
+          echo "AMI: ${{needs.packer.outputs.ami}}"
+          echo "REGION: ${{needs.packer.outputs.region}}"
       # deploy cloudformation template
+      - name: Configure AWS credentials
+        id: creds
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{needs.packer.outputs.region}}
       - name: Deploy CloudFormation
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
