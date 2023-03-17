@@ -51,7 +51,7 @@ jobs:
       # echo ami from previous job
       - name: Echo AMI
         run: |
-          echo "${{fromJson(needs.packer.outputs.json).builds[0].artifact_id}}"
+          echo "${{needs.packer.outputs.ami}}"
       # deploy cloudformation template
       - name: Deploy CloudFormation
         uses: aws-actions/aws-cloudformation-github-deploy@v1
@@ -60,7 +60,7 @@ jobs:
           template: cloudformation.yml
           parameter-overrides: >-
             KeyName=RobAnderson
-            LatestAmi="${{fromJson(needs.packer.outputs.json).builds[0].artifact_id}}"
+            LatestAmi="${{needs.packer.outputs.ami}}"
             OperatorEmail=robandpdx@github.com
             Subnets=subnet-ad0a92ca,subnet-8bed4fa0,subnet-87f0e7df,subnet-9e3f8dd7
             VPC=vpc-f086c497
