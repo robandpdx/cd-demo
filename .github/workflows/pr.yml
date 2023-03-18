@@ -18,6 +18,9 @@ jobs:
       ami: ${{ steps.set_ami.outputs.ami }}
       region: ${{ steps.set_ami.outputs.region }}
     steps:
+      - name: Echo GITHUB_REF_NAME
+        run: |
+          echo "GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}"
       - uses: actions/checkout@v3
       - name: Setup Packer
         uses: hashicorp-contrib/setup-packer@v2
