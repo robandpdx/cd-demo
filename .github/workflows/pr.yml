@@ -67,8 +67,8 @@ jobs:
           name: test
           template: cloudformation.yml
           parameter-overrides: >-
-            KeyName=RobAnderson
-            Subnets=subnet-ad0a92ca,subnet-8bed4fa0,subnet-87f0e7df,subnet-9e3f8dd7
-            VPC=vpc-f086c497
-            LatestAmi=${{needs.packer.outputs.ami}}
+            KeyName=RobAnderson,
+            Subnets=subnet-ad0a92ca,subnet-8bed4fa0,subnet-87f0e7df,subnet-9e3f8dd7,
+            VPC=vpc-f086c497,
+            LatestAmi=${{needs.packer.outputs.ami}},
             OperatorEmail=robandpdx@github.com
