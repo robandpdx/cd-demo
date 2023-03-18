@@ -69,6 +69,6 @@ jobs:
           parameter-overrides: >-
             KeyName=RobAnderson,
             VPC=vpc-f086c497,
-            LatestAmi=${{needs.packer.outputs.ami}},
+            LatestAmiId=${{needs.packer.outputs.ami}},
             OperatorEmail=robandpdx@github.com,
-            Subnets=subnet-ad0a92ca,subnet-8bed4fa0,subnet-87f0e7df,subnet-9e3f8dd7
+            Subnets="subnet-ad0a92ca,subnet-8bed4fa0,subnet-87f0e7df,subnet-9e3f8dd7"
