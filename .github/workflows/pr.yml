@@ -1,15 +1,10 @@
-name: build and deploy to test
+name: PR - build and deploy
 
 on:
   workflow_dispatch:
   pull_request:
     branches:
       - master
-
-env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_DEFAULT_REGION: us-west-2
 
 jobs:
   packer:
