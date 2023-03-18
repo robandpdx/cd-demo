@@ -53,6 +53,7 @@ jobs:
         run: |
           echo "AMI: ${{needs.packer.outputs.ami}}"
           echo "REGION: ${{needs.packer.outputs.region}}"
+          echo "GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}"
       # deploy cloudformation template
       - name: Configure AWS credentials
         id: creds
