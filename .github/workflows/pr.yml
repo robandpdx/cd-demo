@@ -65,7 +65,7 @@ jobs:
       - name: Deploy CloudFormation
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
-          name: test-${{github.ref_name}}
+          name: test-${{github.head_ref}}
           template: cloudformation.yml
           parameter-overrides: >-
             KeyName=RobAnderson,
