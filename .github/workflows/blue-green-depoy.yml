@@ -2,6 +2,11 @@ name: Blue Green Deploy Pipeline
 
 on:
   workflow_dispatch:
+    inputs:
+      ami:
+        description: 'AMI ID to deploy'
+        required: false
+        type: string
   push:
     branches:
       - master
@@ -13,6 +18,7 @@ env:
 
 jobs:
   packer:
+    if: ${{ github.event.inputs.ami == ''}}
     runs-on: ubuntu-latest
     outputs:
       ami: ${{ steps.set_ami.outputs.ami }}
@@ -53,7 +59,6 @@ jobs:
       name: ${{ matrix.environment }}
 
     steps:
-      - uses: aws-actions/setup-sam@v2
       - uses: actions/checkout@v3
       - name: Download artifact
         uses: actions/download-artifact@v2
@@ -76,7 +81,7 @@ jobs:
       - name: Deploy New Stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
-          name: ${{matrix.environment}}-${{vars.GITHUB_RUN_NUMBER}}
+          name: ${{matrix.environment}}-${{GITHUB_RUN_NUMBER}}
           template: cloudformation.yml
           parameter-overrides: >-
             KeyName=RobAnderson,
