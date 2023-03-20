@@ -69,7 +69,7 @@ Resources:
       HealthyThresholdCount: 5
       Matcher:
         HttpCode: '200'
-      Name: EC2TargetGroup
+      Name: !Sub ${AWS::StackName}-EC2TargetGroup
       Port: 80
       Protocol: HTTP
       TargetGroupAttributes:
