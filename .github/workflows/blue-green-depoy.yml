@@ -59,6 +59,7 @@ jobs:
           else
             echo "Using AMI ${{ github.event.inputs.ami }} from workflow_dispatch input"
             echo "ami=${{ github.event.inputs.ami }}" >> $GITHUB_OUTPUT
+          fi
   deploy:
     runs-on: ubuntu-latest
     needs: packer
