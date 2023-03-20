@@ -17,32 +17,48 @@ env:
   AWS_DEFAULT_REGION: us-west-2
 
 jobs:
-  packer:
+  build:
+    runs-on: ubuntu-latest
     if: ${{ github.event.inputs.ami == ''}}
+    steps:
+      - name: Build
+        run: echo "Building..."
+      - name: Unit test
+        run: echo "Running unit tests..."
+  packer:
     runs-on: ubuntu-latest
     outputs:
       ami: ${{ steps.set_ami.outputs.ami }}
       region: ${{ steps.set_ami.outputs.region }}
     steps:
       - uses: actions/checkout@v3
+        if: ${{ github.event.inputs.ami == ''}}
       - name: Setup Packer
         uses: hashicorp-contrib/setup-packer@v2
+        if: ${{ github.event.inputs.ami == ''}}
       - name: Run Packer
         run: packer build -var-file=packer-vars.json packer-template.json
+        if: ${{ github.event.inputs.ami == ''}}
       - name: Upload artifact
         uses: actions/upload-artifact@v2
+        if: ${{ github.event.inputs.ami == ''}}
         with:
           name: manifest
           path: packer-manifest.json
-      - name: Read packer manifest
+      - name: Set AMI
         id: set_ami
         run: |
-          content=`cat ./packer-manifest.json`
-          amiRegion=`jq -r '.builds[0].artifact_id' < ./packer-manifest.json`
-          ami=${amiRegion#*:}
-          region=${amiRegion%:*}
-          echo "ami=$ami" >> $GITHUB_OUTPUT
-          echo "region=$region" >> $GITHUB_OUTPUT
+          # if packer-manifest.json file exists, read it
+          if [ -f ./packer-manifest.json ]; then
+            content=`cat ./packer-manifest.json`
+            amiRegion=`jq -r '.builds[0].artifact_id' < ./packer-manifest.json`
+            ami=${amiRegion#*:}
+            region=${amiRegion%:*}
+            echo "ami=$ami" >> $GITHUB_OUTPUT
+            echo "region=$region" >> $GITHUB_OUTPUT
+          else
+            echo "Using AMI ${{ github.event.inputs.ami }} from workflow_dispatch input"
+            echo "ami=${{ github.event.inputs.ami }}" >> $GITHUB_OUTPUT
   deploy:
     runs-on: ubuntu-latest
     needs: packer
