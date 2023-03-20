@@ -81,7 +81,7 @@ jobs:
       - name: Deploy New Stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
-          name: ${{matrix.environment}}-${{GITHUB_RUN_NUMBER}}
+          name: ${{matrix.environment}}-${GITHUB_RUN_NUMBER}
           template: cloudformation.yml
           parameter-overrides: >-
             KeyName=RobAnderson,
