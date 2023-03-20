@@ -12,6 +12,15 @@ env:
   AWS_DEFAULT_REGION: us-west-2
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        if: ${{ github.event.inputs.ami == ''}}
+        run: echo "Building..."
+      - name: Unit test
+        if: ${{ github.event.inputs.ami == ''}}
+        run: echo "Running unit tests..."
   packer:
     runs-on: ubuntu-latest
     outputs:
