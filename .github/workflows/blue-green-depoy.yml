@@ -27,6 +27,7 @@ jobs:
         run: echo "Running unit tests..."
   packer:
     runs-on: ubuntu-latest
+    needs: build
     outputs:
       ami: ${{ steps.set_ami.outputs.ami }}
       region: ${{ steps.set_ami.outputs.region }}
