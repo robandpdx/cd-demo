@@ -9,7 +9,6 @@ jobs:
   delete:
     runs-on: ubuntu-latest
     steps:
-      - uses: aws-actions/setup-sam@v2
       - name: Configure AWS credentials
         id: creds
         uses: aws-actions/configure-aws-credentials@v1
