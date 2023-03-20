@@ -111,10 +111,10 @@ jobs:
           template: cloudformation.yml
           parameter-overrides: >-
             KeyName=RobAnderson,
-            VPC=vpc-f086c497,
+            VPC=${{vars.VPC}},
             LatestAmiId=${{needs.packer.outputs.ami}},
             OperatorEmail=robandpdx@github.com,
-            Subnets="subnet-ad0a92ca,subnet-8bed4fa0,subnet-87f0e7df,subnet-9e3f8dd7"
+            Subnets="${{vars.SUBNETS}}"
       - name: Check New Stack Status
         run: echo "Run commands to check the status of the new stack"
       - name: Flip the load balancer
