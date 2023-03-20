@@ -19,11 +19,12 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.ami == ''}}
     steps:
       - name: Build
+        if: ${{ github.event.inputs.ami == ''}}
         run: echo "Building..."
       - name: Unit test
+        if: ${{ github.event.inputs.ami == ''}}
         run: echo "Running unit tests..."
   packer:
     runs-on: ubuntu-latest
