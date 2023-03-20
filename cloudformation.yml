@@ -69,7 +69,7 @@ Resources:
       HealthyThresholdCount: 5
       Matcher:
         HttpCode: '200'
-      Name: !Sub ${AWS::StackName}-EC2TargetGroup
+      Name: !Sub ${AWS::StackName}-TG
       Port: 80
       Protocol: HTTP
       TargetGroupAttributes:
@@ -96,7 +96,7 @@ Resources:
   LaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
     Properties: 
-      LaunchTemplateName: !Sub ${AWS::StackName}-launch-template
+      LaunchTemplateName: !Sub ${AWS::StackName}-LT
       LaunchTemplateData:
         ImageId: !Ref LatestAmiId
         InstanceType: !Ref InstanceType
