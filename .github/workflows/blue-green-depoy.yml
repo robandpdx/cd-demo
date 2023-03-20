@@ -124,4 +124,4 @@ jobs:
         run: |
           echo "Deleting old stack ${{ steps.find-old-stack.outputs.oldstack }}"
           aws cloudformation delete-stack --stack-name ${{ steps.find-old-stack.outputs.oldstack }}
-        
+          aws cloudformation wait stack-delete-complete --stack-name ${{ steps.find-old-stack.outputs.oldstack }}
