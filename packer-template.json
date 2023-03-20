@@ -1,14 +1,14 @@
 {
     "variables": {
-      "sourceAmiName": "ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*",
-      "sourceAmiOwner": "099720109477",
+      "sourceAmiName": "al2023-ami-*-x86_64",
+      "sourceAmiOwner": "137112412989",
       "build_number": "{{env `GITHUB_RUN_NUMBER`}}",
       "version": "0.1.0",
       "packageName": "application-name",
       "userData": "",
       "region": "us-west-2",
       "instanceType": "t3.nano",
-      "sshUserName": "ubuntu",
+      "sshUserName": "ec2-user",
       "sshTimeout": "5m",
       "packerSetupScriptFile": "packer-setup-script.sh",
       "preInstallScriptFile": "noop.sh",
