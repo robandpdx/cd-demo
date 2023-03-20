@@ -41,7 +41,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: packer
     steps:
-      - uses: aws-actions/setup-sam@v2
       - uses: actions/checkout@v3
       - name: Download artifact
         uses: actions/download-artifact@v2
@@ -53,7 +52,7 @@ jobs:
         run: |
           echo "AMI: ${{needs.packer.outputs.ami}}"
           echo "REGION: ${{needs.packer.outputs.region}}"
-          echo "GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}"
+          echo "github.head_ref: ${{github.head_ref}}"
       # deploy cloudformation template
       - name: Configure AWS credentials
         id: creds
