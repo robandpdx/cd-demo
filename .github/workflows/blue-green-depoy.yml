@@ -79,6 +79,11 @@ jobs:
       name: ${{ matrix.environment }}
 
     steps:
+      - name: Find existing stack
+        id: find-old-stack
+        run: |
+          OLD_STACK=`aws cloudformation describe-stacks | jq -r '.Stacks[].StackName' | grep ${{matrix.environment}}`
+          echo "oldstack=$OLD_STACK" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v3
       - name: Download artifact
         if: ${{ github.event.inputs.ami == ''}}
@@ -115,4 +120,8 @@ jobs:
       - name: Flip the load balancer
         run: echo "Run commands to flip the load balancer"
       - name: Delete the old stack
-        run: echo "Run commands to delete the old stack"
+        if: ${{ steps.find-old-stack.outputs.oldstack != '' }}
+        run: |
+          echo "Deleting old stack ${{ steps.find-old-stack.outputs.oldstack }}"
+          aws cloudformation delete-stack --stack-name ${{ steps.find-old-stack.outputs.oldstack }}
+        
