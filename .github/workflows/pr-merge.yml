@@ -20,3 +20,4 @@ jobs:
       - name: Delete cloudformation stack
         run: |
           aws cloudformation delete-stack --stack-name test-$GITHUB_REF_NAME
+          aws cloudformation wait stack-delete-complete --stack-name test-$GITHUB_REF_NAME
