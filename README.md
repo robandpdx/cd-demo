@@ -4,6 +4,7 @@ This repo demonstrates how to implement GitHub actions workflows to build and de
 
 This repo uses a cloudformation template to deploy a stack to AWS. The stack contains an auto-scaling-group of ec2 instances, a load balancer, and other related resources.  
 
+
 There are several workflows in this repo:  
  - PR - build and deploy
  - PR - delete stack
