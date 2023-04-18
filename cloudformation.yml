@@ -132,6 +132,10 @@ Resources:
           Tags:
             - Key: "owner"
               Value: !Ref Owner
+        - ResourceType: instance
+          Tags:
+            - Key: "owner"
+              Value: !Ref Owner
   NotificationTopic:
     Type: AWS::SNS::Topic
     Properties:
