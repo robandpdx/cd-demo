@@ -18,5 +18,5 @@ jobs:
           aws-region: us-west-2
       - name: Delete cloudformation stack
         run: |
-          aws cloudformation delete-stack --stack-name test-${{github.head_ref}}
-          aws cloudformation wait stack-delete-complete --stack-name test-${{github.head_ref}}
+          aws cloudformation delete-stack --stack-name cd-test-${{github.head_ref}}
+          aws cloudformation wait stack-delete-complete --stack-name cd-test-${{github.head_ref}}

@@ -70,9 +70,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - environment: staging
+          - environment: cd-staging
             url: https://staging.mydomain.com
-          - environment: production
+          - environment: cd-production
             url: https://www.mydomain.com
     environment:
       url: ${{ matrix.url }}
