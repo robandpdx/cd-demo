@@ -119,14 +119,6 @@ Resources:
         KeyName: !Ref KeyName
         SecurityGroupIds: 
           - !Ref EC2SecurityGroup
-        UserData:
-          Fn::Base64: !Sub |
-            #!/bin/bash
-            yum update -y
-            yum install -y httpd
-            systemctl start httpd
-            systemctl enable httpd
-            echo "<h1>Hello World!</h1>" > /var/www/html/index.html
         TagSpecifications:
           - ResourceType: instance
             Tags:
