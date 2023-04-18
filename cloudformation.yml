@@ -47,6 +47,9 @@ Resources:
         FromPort: 80
         ToPort: 80
         CidrIp: 0.0.0.0/0
+      Tags: 
+        - Key: "owner"
+          Value: !Ref Owner
   EC2SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -64,6 +67,9 @@ Resources:
         FromPort: 22
         ToPort: 22
         CidrIp: !Ref SSHLocation
+      Tags: 
+        - Key: "owner"
+          Value: !Ref Owner
   EC2TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
@@ -81,6 +87,9 @@ Resources:
         Value: '20'
       UnhealthyThresholdCount: 3
       VpcId: !Ref VPC
+      Tags: 
+        - Key: "owner"
+          Value: !Ref Owner
   ALBListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
@@ -97,6 +106,9 @@ Resources:
       Subnets: !Ref Subnets
       SecurityGroups:
         - !GetAtt ELBSecurityGroup.GroupId
+      Tags: 
+        - Key: "owner"
+          Value: !Ref Owner
   LaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
     Properties: 
@@ -115,12 +127,20 @@ Resources:
             systemctl start httpd
             systemctl enable httpd
             echo "<h1>Hello World!</h1>" > /var/www/html/index.html
+      TagSpecifications:
+        - ResourceType: instance
+          Tags:
+            - Key: "owner"
+              Value: !Ref Owner
   NotificationTopic:
     Type: AWS::SNS::Topic
     Properties:
       Subscription:
         - Endpoint: !Ref OperatorEmail
           Protocol: email
+      Tags: 
+        - Key: "owner"
+          Value: !Ref Owner
   WebServerGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
@@ -135,6 +155,7 @@ Resources:
       TargetGroupARNs:
         - !Ref EC2TargetGroup
       VPCZoneIdentifier: !Ref Subnets
-Tags: 
-  - Key: "owner"
-    Value: !Ref Owner
+      Tags: 
+        - Key: "owner"
+          Value: !Ref Owner
+          PropagateAtLaunch: true
