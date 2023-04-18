@@ -78,7 +78,7 @@ jobs:
           name: test-${{github.head_ref}}
           template: cloudformation.yml
           parameter-overrides: >-
-            KeyName=RobAnderson,
+            KeyName=robandpdx-us-west-2,
             VPC=${{vars.VPC}},
             LatestAmiId=${{needs.packer.outputs.ami}},
             OperatorEmail=robandpdx@github.com,

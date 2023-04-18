@@ -110,7 +110,7 @@ jobs:
           name: ${{matrix.environment}}-${{github.run_number}}
           template: cloudformation.yml
           parameter-overrides: >-
-            KeyName=RobAnderson,
+            KeyName=robandpdx-us-west-2,
             VPC=${{vars.VPC}},
             LatestAmiId=${{needs.packer.outputs.ami}},
             OperatorEmail=robandpdx@github.com,
