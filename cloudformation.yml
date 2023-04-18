@@ -127,12 +127,13 @@ Resources:
             systemctl start httpd
             systemctl enable httpd
             echo "<h1>Hello World!</h1>" > /var/www/html/index.html
+        TagSpecifications:
+          - ResourceType: instance
+            Tags:
+              - Key: "owner"
+                Value: !Ref Owner
       TagSpecifications:
         - ResourceType: launch-template
-          Tags:
-            - Key: "owner"
-              Value: !Ref Owner
-        - ResourceType: instance
           Tags:
             - Key: "owner"
               Value: !Ref Owner
