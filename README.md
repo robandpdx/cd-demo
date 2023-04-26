@@ -23,5 +23,3 @@ This workflow is triggered on push to main. The workflow can also be triggered m
  - Build and run unit tests (skipped if AMI is provided)
  - Build AMI using Packer (skipped if AMI is provided)
  - Deploy stack to staging and production environments in AWS
-
- 
