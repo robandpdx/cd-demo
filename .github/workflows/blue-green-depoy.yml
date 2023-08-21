@@ -68,7 +68,7 @@ jobs:
     needs: packer
 
     strategy:
-      max-parallel: 1
+      #max-parallel: 1
       matrix:
         include:
           - environment: cd-staging
