@@ -69,6 +69,7 @@ jobs:
     continue-on-error: true
 
     strategy:
+      max-parallel: 1
       matrix:
         include:
           - environment: cd-staging
