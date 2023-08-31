@@ -114,7 +114,6 @@ jobs:
             KeyName=robandpdx-us-west-2,
             VPC=${{vars.VPC}},
             LatestAmiId=${{needs.packer.outputs.ami}},
-            OperatorEmail=robandpdx@github.com,
             Subnets="${{vars.SUBNETS}}"
       - name: Check New Stack Status
         run: echo "Run commands to check the status of the new stack"
