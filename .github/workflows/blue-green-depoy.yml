@@ -49,6 +49,8 @@ jobs:
           path: packer-manifest.json
       - name: Set AMI
         id: set_ami
+        env:
+          INPUT_AMI: ${{ github.event.inputs.ami }}
         run: |
           # if packer-manifest.json file exists, read it
           if [ -f ./packer-manifest.json ]; then
@@ -59,8 +61,8 @@ jobs:
             echo "ami=$ami" >> $GITHUB_OUTPUT
             echo "region=$region" >> $GITHUB_OUTPUT
           else
-            echo "Using AMI ${{ github.event.inputs.ami }} from workflow_dispatch input"
-            echo "ami=${{ github.event.inputs.ami }}" >> $GITHUB_OUTPUT
+            echo "Using AMI $INPUT_AMI from workflow_dispatch input"
+            echo "ami=$INPUT_AMI" >> $GITHUB_OUTPUT
             echo "region=us-west-2" >> $GITHUB_OUTPUT
           fi
   deploy:
