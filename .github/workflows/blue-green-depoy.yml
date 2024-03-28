@@ -39,7 +39,7 @@ jobs:
         uses: hashicorp-contrib/setup-packer@v2
         if: ${{ github.event.inputs.ami == ''}}
       - name: Run Packer
-        run: packer build -var-file=packer-vars.json packer-template.json
+        run: packer build -var-file=packer-vars.json packer-template.json.pkr.hcl
         if: ${{ github.event.inputs.ami == ''}}
       - name: Upload artifact
         uses: actions/upload-artifact@v2
