@@ -33,16 +33,16 @@ jobs:
       ami: ${{ steps.set_ami.outputs.ami }}
       region: ${{ steps.set_ami.outputs.region }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.1
         if: ${{ github.event.inputs.ami == ''}}
       - name: Setup Packer
-        uses: hashicorp-contrib/setup-packer@v2
+        uses: hashicorp-contrib/setup-packer@v3.0.0
         if: ${{ github.event.inputs.ami == ''}}
       - name: Run Packer
         run: packer build -var-file=packer-vars.json packer-template.json.pkr.hcl
         if: ${{ github.event.inputs.ami == ''}}
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4.3.1
         if: ${{ github.event.inputs.ami == ''}}
         with:
           name: manifest
@@ -87,10 +87,10 @@ jobs:
         run: |
           OLD_STACK=`aws cloudformation describe-stacks | jq -r '.Stacks[].StackName' | grep ${{matrix.environment}} || true`
           echo "oldstack=$OLD_STACK" >> $GITHUB_OUTPUT
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.1
       - name: Download artifact
         if: ${{ github.event.inputs.ami == ''}}
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.4
         with:
           name: manifest
           path: .
@@ -102,7 +102,7 @@ jobs:
       # deploy cloudformation template
       - name: Configure AWS credentials
         id: creds
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
