@@ -29,8 +29,10 @@ jobs:
       - uses: sactions/checkout@v4.1.1
       - name: Setup Packer
         uses: hashicorp-contrib/setup-packer@v3.0.0
-      - name: Run Packer
-        run: packer build -var-file=packer-vars.json packer-template.json
+      - name: Run Packer init
+        run: packer init
+      - name: Run Packer build
+        run: packer build -var-file=packer-vars.json packer-template.json.pkr.hcl
       - name: Upload artifact
         uses: actions/upload-artifact@v4.3.1
         with:

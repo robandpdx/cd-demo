@@ -38,7 +38,10 @@ jobs:
       - name: Setup Packer
         uses: hashicorp-contrib/setup-packer@v3.0.0
         if: ${{ github.event.inputs.ami == ''}}
-      - name: Run Packer
+      - name: Run Packer init
+        run: packer init 
+        if: ${{ github.event.inputs.ami == ''}}
+      - name: Run Packer build
         run: packer build -var-file=packer-vars.json packer-template.json.pkr.hcl
         if: ${{ github.event.inputs.ami == ''}}
       - name: Upload artifact
