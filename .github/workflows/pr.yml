@@ -30,7 +30,7 @@ jobs:
       - name: Setup Packer
         uses: hashicorp-contrib/setup-packer@v3.0.0
       - name: Run Packer init
-        run: packer init
+        run: packer init packer-template.json.pkr.hcl
       - name: Run Packer build
         run: packer build -var-file=packer-vars.json packer-template.json.pkr.hcl
       - name: Upload artifact
