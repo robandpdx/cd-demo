@@ -23,3 +23,21 @@ This workflow is triggered on push to main. The workflow can also be triggered m
  - Build and run unit tests (skipped if AMI is provided)
  - Build AMI using Packer (skipped if AMI is provided)
  - Deploy stack to staging and production environments in AWS
+
+## Credentials
+This repo relies on the following repo secrets for authentication to AWS:
+```
+AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY
+```
+
+## Environments
+The `PR - build and deploy` workflows deploys to an [environment](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment) named `cd-test`.
+
+The `Blue Green Deploy Pipeline` workflows deploys to an [environment](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment) named `cd-staging` and `cd-production`.
+
+Each environmnet needs to have the following [environment variables](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#environment-variables) configured:
+```
+SUBNETS # list of subnets in AWS, comma separated
+VPC # the VPC in AWS
+```
