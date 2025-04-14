@@ -26,7 +26,7 @@ jobs:
       ami: ${{ steps.set_ami.outputs.ami }}
       region: ${{ steps.set_ami.outputs.region }}
     steps:
-      - uses: sactions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.1
       - name: Setup Packer
         uses: hashicorp-contrib/setup-packer@v3.0.0
       - name: Run Packer init
