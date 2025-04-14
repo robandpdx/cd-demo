@@ -42,7 +42,7 @@ jobs:
         id: set_ami
         run: |
           content=`cat ./packer-manifest.json`
-          amiRegion=`echo content | jq -r '.builds[0].artifact_id'`
+          amiRegion=`echo $content | jq -r '.builds[0].artifact_id'`
           ami=${amiRegion#*:}
           region=${amiRegion%:*}
           echo "ami=$ami" >> $GITHUB_OUTPUT
