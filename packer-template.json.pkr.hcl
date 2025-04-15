@@ -172,12 +172,16 @@ build {
 
   provisioner "file" {
     source      = "README.md"
-    destination = "/var/www/html/README.md"
+    destination = "/tmp/README.md"
   }
 
   provisioner "file" {
     source      = "SCRATCHPAD.md"
-    destination = "/var/www/html/SCRATCHPAD.md"
+    destination = "/tmp/SCRATCHPAD.md"
+  }
+
+  provisioner "shell {
+    inline = ["sudo mv /tmp/*md /var/www/html/"]
   }
 
   provisioner "shell" {
