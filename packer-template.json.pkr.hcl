@@ -180,7 +180,7 @@ build {
     destination = "/tmp/SCRATCHPAD.md"
   }
 
-  provisioner "shell {
+  provisioner "shell" {
     inline = ["sudo mv /tmp/*md /var/www/html/"]
   }
 
