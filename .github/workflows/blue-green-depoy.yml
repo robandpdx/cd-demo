@@ -7,6 +7,10 @@ on:
         description: 'AMI ID to deploy'
         required: false
         type: string
+      tag:
+        description: 'Tag to deploy'
+        required: false
+        type: string
   push:
     branches:
       - main
@@ -33,8 +37,14 @@ jobs:
       ami: ${{ steps.set_ami.outputs.ami }}
       region: ${{ steps.set_ami.outputs.region }}
     steps:
-      - uses: actions/checkout@v4.1.1
-        if: ${{ github.event.inputs.ami == ''}}
+      - name: Checkout HEAD
+        uses: actions/checkout@v4.1.1
+        if: ${{ github.event.inputs.ami == ''}} && ${{ github.event.inputs.tag == ''}}
+      - name: Checkout Tag
+        uses: actions/checkout@v4.1.1
+        if: ${{ github.event.inputs.tag != ''}}
+        with:
+          ref: ${{ github.event.inputs.tag }}
       - name: Setup Packer
         uses: hashicorp-contrib/setup-packer@v3.0.0
         if: ${{ github.event.inputs.ami == ''}}
