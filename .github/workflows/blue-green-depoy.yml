@@ -26,7 +26,7 @@ jobs:
     steps:
       - name: Checkout HEAD
         uses: actions/checkout@v4.1.1
-        if: ${{ github.event.inputs.ami == ''}} && ${{ github.event.inputs.tag == ''}}
+        if: ${{ github.event.inputs.ami == '' && github.event.inputs.tag == ''}}
       - name: Checkout Tag
         uses: actions/checkout@v4.1.1
         if: ${{ github.event.inputs.tag != ''}}
@@ -47,7 +47,7 @@ jobs:
     steps:
       - name: Checkout HEAD
         uses: actions/checkout@v4.1.1
-        if: ${{ github.event.inputs.ami == ''}} && ${{ github.event.inputs.tag == ''}}
+        if: ${{ github.event.inputs.ami == '' && github.event.inputs.tag == ''}}
       - name: Checkout Tag
         uses: actions/checkout@v4.1.1
         if: ${{ github.event.inputs.tag != ''}}
@@ -110,7 +110,7 @@ jobs:
           echo "oldstack=$OLD_STACK" >> $GITHUB_OUTPUT
       - name: Checkout HEAD
         uses: actions/checkout@v4.1.1
-        if: ${{ github.event.inputs.ami == ''}} && ${{ github.event.inputs.tag == ''}}
+        if: ${{ github.event.inputs.ami == '' && github.event.inputs.tag == ''}}
       - name: Checkout Tag
         uses: actions/checkout@v4.1.1
         if: ${{ github.event.inputs.tag != ''}}
