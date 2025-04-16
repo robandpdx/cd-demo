@@ -141,3 +141,7 @@ Resources:
         - Key: "owner"
           Value: !Ref Owner
           PropagateAtLaunch: true
+Outputs:
+  URL:
+    Description: The URL of the app
+    Value: !Sub "http://${ApplicationLoadBalancer.DNSName}"
