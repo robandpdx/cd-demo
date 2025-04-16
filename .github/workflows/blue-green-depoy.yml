@@ -24,6 +24,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout HEAD
+        uses: actions/checkout@v4.1.1
+        if: ${{ github.event.inputs.ami == ''}} && ${{ github.event.inputs.tag == ''}}
+      - name: Checkout Tag
+        uses: actions/checkout@v4.1.1
+        if: ${{ github.event.inputs.tag != ''}}
+        with:
+          ref: ${{ github.event.inputs.tag }}
       - name: Build
         if: ${{ github.event.inputs.ami == ''}}
         run: echo "Building..."
@@ -100,7 +108,14 @@ jobs:
         run: |
           OLD_STACK=`aws cloudformation describe-stacks | jq -r '.Stacks[].StackName' | grep ${{matrix.environment}} || true`
           echo "oldstack=$OLD_STACK" >> $GITHUB_OUTPUT
-      - uses: actions/checkout@v4.1.1
+      - name: Checkout HEAD
+        uses: actions/checkout@v4.1.1
+        if: ${{ github.event.inputs.ami == ''}} && ${{ github.event.inputs.tag == ''}}
+      - name: Checkout Tag
+        uses: actions/checkout@v4.1.1
+        if: ${{ github.event.inputs.tag != ''}}
+        with:
+          ref: ${{ github.event.inputs.tag }}
       - name: Download artifact
         if: ${{ github.event.inputs.ami == ''}}
         uses: actions/download-artifact@v4.1.7
